@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QueuingSystem
+namespace QueuingSystemCoursework
 {
   internal partial class StepModeForm : Form
   {

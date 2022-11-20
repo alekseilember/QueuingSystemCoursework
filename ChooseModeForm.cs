@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System;
 
-namespace QueuingSystem
+namespace QueuingSystemCoursework
 {
   public partial class ChooseModeForm : Form
   {
@@ -20,10 +20,10 @@ namespace QueuingSystem
 
     private void automatic_Click(object sender, EventArgs e)
     {
-      //AutomaticModeParametersForm automaticModeParametersForm = new AutomaticModeParametersForm();
-      //automaticModeParametersForm.FormClosing += delegate { this.Show(); };
-      //Hide();
-      //automaticModeParametersForm.ShowDialog();
+      AutomaticModeParametersForm automaticModeParametersForm = new AutomaticModeParametersForm();
+      automaticModeParametersForm.FormClosing += delegate { this.Show(); };
+      Hide();
+      automaticModeParametersForm.ShowDialog();
     }
   }
 }

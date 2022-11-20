@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace QueuingSystem
+namespace QueuingSystemCoursework
 {
   public partial class StepModeParametersForm : Form
   {
@@ -28,6 +28,13 @@ namespace QueuingSystem
           lambda = Convert.ToDouble(this.textBox1.Text);
           alpha = Convert.ToDouble(this.textBox2.Text);
           beta = Convert.ToDouble(this.textBox3.Text);
+
+          if (alpha > beta)
+          {
+            MessageBox.Show("Maximum amount of time needed to serve request can not be less than minimum", "Error", MessageBoxButtons.OK);
+            return;
+          }
+          
         }
         catch
         {

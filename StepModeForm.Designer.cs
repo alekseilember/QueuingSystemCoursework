@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace QueuingSystem
+namespace QueuingSystemCoursework
 {
   partial class StepModeForm
   {

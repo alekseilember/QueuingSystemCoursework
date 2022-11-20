@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QueuingSystem
+namespace QueuingSystemCoursework
 {
   internal class MainStepMode
   {

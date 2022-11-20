@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace QueuingSystem
+namespace QueuingSystemCoursework
 {
   public partial class AutomaticModeParametersForm : Form
   {
@@ -30,6 +30,27 @@ namespace QueuingSystem
           maxLambda = Convert.ToDouble(this.textBox4.Text);
           alpha = Convert.ToDouble(this.textBox2.Text);
           beta = Convert.ToDouble(this.textBox3.Text);
+
+          if (alpha > beta)
+          {
+            MessageBox.Show("Maximum amount of time needed to serve request can not be less than minimum", "Error", MessageBoxButtons.OK);
+            return;
+          }
+          if (minLambda > maxLambda)
+          {
+            MessageBox.Show("Maximum average amount of requests per time unit can not be less than minimum", "Error", MessageBoxButtons.OK);
+            return;
+          }
+          if (numericUpDown1.Value > numericUpDown5.Value)
+          {
+            MessageBox.Show("Maximum buffer length can not be less than minimum", "Error", MessageBoxButtons.OK);
+            return;
+          }
+          if (numericUpDown8.Value > numericUpDown7.Value)
+          {
+            MessageBox.Show("Maximum amount of devices can not be less than minimum", "Error", MessageBoxButtons.OK);
+            return;
+          }
         }
         catch
         {
@@ -37,10 +58,10 @@ namespace QueuingSystem
           return;
         }
 
-        //AutomaticModeForm automaticModeForm = new AutomaticModeForm();
-        //automaticModeForm.FormClosing += delegate { this.Show(); };
-        //Hide();
-        //automaticModeForm.ShowDialog();
+        AutomaticModeForm automaticModeForm = new AutomaticModeForm();
+        automaticModeForm.FormClosing += delegate { this.Show(); };
+        Hide();
+        automaticModeForm.ShowDialog();
       }
       else
       {
