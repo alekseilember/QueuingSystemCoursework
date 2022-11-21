@@ -47,17 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutomaticModeForm.cs">
+    <Compile Include="AutomaticModePlotsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AutomaticModeForm.Designer.cs">
-      <DependentUpon>AutomaticModeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AutomaticModeParametersForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AutomaticModeParametersForm.Designer.cs">
-      <DependentUpon>AutomaticModeParametersForm.cs</DependentUpon>
+    <Compile Include="AutomaticModePlotsForm.Designer.cs">
+      <DependentUpon>AutomaticModePlotsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ChooseModeForm.cs">
       <SubType>Form</SubType>
@@ -86,11 +80,8 @@
     <Compile Include="StepModeParametersForm.Designer.cs">
       <DependentUpon>StepModeParametersForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AutomaticModeForm.resx">
-      <DependentUpon>AutomaticModeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AutomaticModeParametersForm.resx">
-      <DependentUpon>AutomaticModeParametersForm.cs</DependentUpon>
+    <EmbeddedResource Include="AutomaticModePlotsForm.resx">
+      <DependentUpon>AutomaticModePlotsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChooseModeForm.resx">
       <DependentUpon>ChooseModeForm.cs</DependentUpon>

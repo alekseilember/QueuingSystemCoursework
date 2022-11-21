@@ -31,7 +31,7 @@ namespace QueuingSystemCoursework
 
     public int BufferLength { get => bufferLength; }
 
-        public MainStepMode(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
+    public MainStepMode(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
     {
       Statistics.clear();
 
@@ -100,10 +100,10 @@ namespace QueuingSystemCoursework
         if (!isAllDevicesFree && (requestList.Count == 0 || devices[earliestDeviceEndServiceTimeIndex].EndServiceTime < requestList.ElementAt(0).GenerationTime))
         {
           systemTime = devices[earliestDeviceEndServiceTimeIndex].EndServiceTime;
-          result.AddLast(devices[earliestDeviceEndServiceTimeIndex].endService(systemTime));
+          result.AddLast(devices[earliestDeviceEndServiceTimeIndex].endServiceStepMode(systemTime));
           if (bufferElementsCounter > 0)
           {
-            LinkedList<(string, string, string, string, string, Request[], int?)> list = extractionManager.extractRequestAndPassToDevice(systemTime, alpha, beta);
+            LinkedList<(string, string, string, string, string, Request[], int?)> list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime, alpha, beta);
             result.AddLast(list.ElementAt(0));
             result.AddLast(list.ElementAt(1));
             bufferElementsCounter--;
@@ -113,7 +113,7 @@ namespace QueuingSystemCoursework
         {
           int oldRefusedRequestsCounter = Statistics.RefusedRequestsCounter;
           systemTime = requestList.ElementAt(0).GenerationTime;
-          LinkedList<(string, string, string, string, string, Request[], int?)> list = insertionManager.insertRequestIntoBuffer(requestList.ElementAt(0), systemTime);
+          LinkedList<(string, string, string, string, string, Request[], int?)> list = insertionManager.insertRequestIntoBufferStepMode(requestList.ElementAt(0), systemTime);
           result.AddLast(list.ElementAt(0));
 
           if (Statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
@@ -127,7 +127,7 @@ namespace QueuingSystemCoursework
 
           if (!isAllDevicesBusy)
           {
-            list = extractionManager.extractRequestAndPassToDevice(systemTime, alpha, beta);
+            list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime, alpha, beta);
             result.AddLast(list.ElementAt(0));
             result.AddLast(list.ElementAt(1));
             bufferElementsCounter--;
@@ -140,7 +140,7 @@ namespace QueuingSystemCoursework
       return result;
     }
 
-    public (double, double, double) doAutomaticSimulation()
+    public (double, double, double[]) doAutomaticSimulation()
     {
       while (!isSimulationDone)
       {
@@ -176,10 +176,10 @@ namespace QueuingSystemCoursework
         if (!isAllDevicesFree && (requestList.Count == 0 || devices[earliestDeviceEndServiceTimeIndex].EndServiceTime < requestList.ElementAt(0).GenerationTime))
         {
           systemTime = devices[earliestDeviceEndServiceTimeIndex].EndServiceTime;
-          devices[earliestDeviceEndServiceTimeIndex].endService(systemTime);
+          devices[earliestDeviceEndServiceTimeIndex].endServiceAutomaticMode(systemTime);
           if (bufferElementsCounter > 0)
           {
-            extractionManager.extractRequestAndPassToDevice(systemTime, alpha, beta);
+            extractionManager.extractRequestAndPassToDeviceAutomaticMode(systemTime, alpha, beta);
             bufferElementsCounter--;
           }
         }
@@ -187,7 +187,7 @@ namespace QueuingSystemCoursework
         {
           int oldRefusedRequestsCounter = Statistics.RefusedRequestsCounter;
           systemTime = requestList.ElementAt(0).GenerationTime;
-          insertionManager.insertRequestIntoBuffer(requestList.ElementAt(0), systemTime);
+          insertionManager.insertRequestIntoBufferAutomaticMode(requestList.ElementAt(0), systemTime);
 
           if (Statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
           {
@@ -196,7 +196,7 @@ namespace QueuingSystemCoursework
 
           if (!isAllDevicesBusy)
           {
-            extractionManager.extractRequestAndPassToDevice(systemTime, alpha, beta);
+            extractionManager.extractRequestAndPassToDeviceAutomaticMode(systemTime, alpha, beta);
             bufferElementsCounter--;
           }
 
@@ -204,15 +204,15 @@ namespace QueuingSystemCoursework
         }
       }
 
-      double averageDeviceUsageCoefficient = 0.0;
-      foreach (Device device in devices)
+      double[] deviceUsageCoefficients = new double[devices.Length];
+      for (int i = 0; i < devices.Length; i++)
       {
-        averageDeviceUsageCoefficient += device.FullInServiceTime / systemTime;
+        deviceUsageCoefficients[i] = devices[i].FullInServiceTime / systemTime;
       }
-      averageDeviceUsageCoefficient /= devices.Length;
 
-      return (Statistics.RefusedRequestsCounter / Statistics.GeneratedRequestsCounter,
-        Statistics.RequestsInSystemTime / Statistics.GeneratedRequestsCounter, averageDeviceUsageCoefficient);
+      // Probability of refuse, average request in system time, average device usage coefficient
+      return ((double)Statistics.RefusedRequestsCounter / Statistics.GeneratedRequestsCounter,
+        Statistics.RequestsInSystemTime / Statistics.GeneratedRequestsCounter, deviceUsageCoefficients);
     }
   }
 }

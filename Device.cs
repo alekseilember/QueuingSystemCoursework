@@ -26,7 +26,7 @@ namespace QueuingSystemCoursework
       random = new Random();
     }
 
-    public (string, string, string, string, string, Request[], int?) startService(Request request, double systemTime, double alpha, double beta)
+    public (string, string, string, string, string, Request[], int?) startServiceStepMode(Request request, double systemTime, double alpha, double beta)
     {
       if (!isFree())
       {
@@ -43,7 +43,21 @@ namespace QueuingSystemCoursework
         Statistics.RefusedRequestsCounter.ToString(), null, null);
     }
 
-    public (string, string, string, string, string, Request[], int?) endService(double systemTime)
+    public void startServiceAutomaticMode(Request request, double systemTime, double alpha, double beta)
+    {
+      if (!isFree())
+      {
+        throw new Exception("Device " + this.Number + " is not empty");
+      }
+
+      this.request = request;
+      startServiceTime = systemTime;
+
+      inServiceTime = (beta - alpha) * random.NextDouble() + alpha;
+      endServiceTime = startServiceTime + inServiceTime;
+    }
+
+    public (string, string, string, string, string, Request[], int?) endServiceStepMode(double systemTime)
     {
       fullInServiceTime += inServiceTime;
       Statistics.addServedRequest();
@@ -55,6 +69,16 @@ namespace QueuingSystemCoursework
 
       return ("D" + this.number.ToString(), systemTime.ToString(), "end service " + requestNumber, Statistics.ServedRequestsCounter.ToString(),
         Statistics.RefusedRequestsCounter.ToString(), null, null);
+    }
+
+    public void endServiceAutomaticMode(double systemTime)
+    {
+      fullInServiceTime += inServiceTime;
+      Statistics.addServedRequest();
+      Statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
+      this.addServedRequest();
+
+      request = null;
     }
 
     public bool isFree()

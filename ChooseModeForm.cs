@@ -20,10 +20,10 @@ namespace QueuingSystemCoursework
 
     private void automatic_Click(object sender, EventArgs e)
     {
-      AutomaticModeParametersForm automaticModeParametersForm = new AutomaticModeParametersForm();
-      automaticModeParametersForm.FormClosing += delegate { this.Show(); };
+      AutomaticModePlotsForm automaticModePlotsForm = new AutomaticModePlotsForm();
+      automaticModePlotsForm.FormClosing += delegate { this.Show(); };
       Hide();
-      automaticModeParametersForm.ShowDialog();
+      automaticModePlotsForm.ShowDialog();
     }
   }
 }

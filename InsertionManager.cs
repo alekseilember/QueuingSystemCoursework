@@ -16,7 +16,7 @@ namespace QueuingSystemCoursework
       this.buffer = buffer;
     }
 
-    public LinkedList<(string, string, string, string, string, Request[], int?)> insertRequestIntoBuffer(Request request, double systemTime)
+    public LinkedList<(string, string, string, string, string, Request[], int?)> insertRequestIntoBufferStepMode(Request request, double systemTime)
     {
       LinkedList<(string, string, string, string, string, Request[], int?)> result =
         new LinkedList<(string, string, string, string, string, Request[], int?)>();
@@ -38,6 +38,18 @@ namespace QueuingSystemCoursework
         Statistics.RefusedRequestsCounter.ToString(), buffer.ToArray(), bufferPointer));
 
       return result;
+    }
+
+    public void insertRequestIntoBufferAutomaticMode(Request request, double systemTime)
+    {
+      if (buffer[bufferPointer] != null)
+      {
+        Statistics.addRefusedRequest();
+        Statistics.addRequestsInSystemTime(systemTime - buffer[bufferPointer].GenerationTime);
+      }
+
+      buffer[bufferPointer] = request;
+      bufferPointer = (bufferPointer + 1) % buffer.Length;
     }
   }
 

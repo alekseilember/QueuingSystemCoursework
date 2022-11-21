@@ -126,6 +126,11 @@ namespace QueuingSystemCoursework
             0,
             0,
             0});
+      this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.numericUpDown1.Name = "numericUpDown1";
       this.numericUpDown1.Size = new System.Drawing.Size(103, 29);
       this.numericUpDown1.TabIndex = 9;
@@ -160,6 +165,11 @@ namespace QueuingSystemCoursework
             0,
             0,
             0});
+      this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.numericUpDown2.Name = "numericUpDown2";
       this.numericUpDown2.Size = new System.Drawing.Size(103, 29);
       this.numericUpDown2.TabIndex = 12;
@@ -175,6 +185,11 @@ namespace QueuingSystemCoursework
       this.numericUpDown3.Location = new System.Drawing.Point(175, 283);
       this.numericUpDown3.Maximum = new decimal(new int[] {
             2147483647,
+            0,
+            0,
+            0});
+      this.numericUpDown3.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
