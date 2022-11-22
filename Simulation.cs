@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Refactor: Statistics - non-static, Init() instead of constructor
+//Refactor: Statistics - non-static, Init() instead of constructor, results in step mode, readme.md с расшифровкой варианта
 
 namespace QueuingSystemCoursework
 {

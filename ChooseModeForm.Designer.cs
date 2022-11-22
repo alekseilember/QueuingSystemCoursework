@@ -40,7 +40,7 @@ namespace QueuingSystemCoursework
       this.step.Font = new System.Drawing.Font("Times New Roman", 14.25F);
       this.step.Location = new System.Drawing.Point(12, 61);
       this.step.Name = "step";
-      this.step.Size = new System.Drawing.Size(87, 46);
+      this.step.Size = new System.Drawing.Size(214, 46);
       this.step.TabIndex = 0;
       this.step.Text = "Step";
       this.step.UseVisualStyleBackColor = true;
@@ -59,9 +59,9 @@ namespace QueuingSystemCoursework
       // automatic
       // 
       this.automatic.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      this.automatic.Location = new System.Drawing.Point(124, 61);
+      this.automatic.Location = new System.Drawing.Point(12, 126);
       this.automatic.Name = "automatic";
-      this.automatic.Size = new System.Drawing.Size(102, 46);
+      this.automatic.Size = new System.Drawing.Size(214, 46);
       this.automatic.TabIndex = 2;
       this.automatic.Text = "Automatic";
       this.automatic.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@ namespace QueuingSystemCoursework
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(238, 122);
+      this.ClientSize = new System.Drawing.Size(238, 185);
       this.Controls.Add(this.automatic);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.step);

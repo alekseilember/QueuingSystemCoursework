@@ -67,7 +67,7 @@ namespace QueuingSystemCoursework
       dataGridView2.Rows.Add(main.BufferLength - 1);
       for (int i = 0; i < dataGridView2.Rows.Count; i++)
       {
-        dataGridView2.Rows[i].Cells["Elements"].Value = "null";
+        dataGridView2.Rows[i].Cells["Request number"].Value = "null";
         dataGridView2.Rows[i].Cells["Index"].Value = i + 1;
       }
       dataGridView2.Rows[bufferPointer].Cells["Pointer"].Value = "-->";
@@ -90,7 +90,7 @@ namespace QueuingSystemCoursework
         {
           for (int i = 0; i < dataGridView2.Rows.Count; i++)
           {
-            dataGridView2.Rows[i].Cells["Elements"].Value = tableRow.Item6[i] == null ? "null" : tableRow.Item6[i].Number.ToString();
+            dataGridView2.Rows[i].Cells["Request number"].Value = tableRow.Item6[i] == null ? "null" : tableRow.Item6[i].Number.ToString();
           }
         }
 
