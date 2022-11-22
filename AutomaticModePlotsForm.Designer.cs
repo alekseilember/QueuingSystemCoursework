@@ -96,6 +96,7 @@
       series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
       series1.Color = System.Drawing.Color.Blue;
       series1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+      series1.Legend = "Legend1";
       series1.Name = "D1";
       this.chart1.Series.Add(series1);
       this.chart1.Size = new System.Drawing.Size(1469, 654);
@@ -105,9 +106,9 @@
       // button1
       // 
       this.button1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-      this.button1.Location = new System.Drawing.Point(1362, 257);
+      this.button1.Location = new System.Drawing.Point(1360, 257);
       this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(120, 82);
+      this.button1.Size = new System.Drawing.Size(122, 82);
       this.button1.TabIndex = 1;
       this.button1.Text = "Simulate and build plot";
       this.button1.UseVisualStyleBackColor = true;
@@ -593,6 +594,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1494, 1007);
+      this.Controls.Add(this.button1);
       this.Controls.Add(this.progressBar1);
       this.Controls.Add(this.label21);
       this.Controls.Add(this.label20);
@@ -630,7 +632,6 @@
       this.Controls.Add(this.comboBox1);
       this.Controls.Add(this.label4);
       this.Controls.Add(this.label7);
-      this.Controls.Add(this.button1);
       this.Controls.Add(this.chart1);
       this.Name = "AutomaticModePlotsForm";
       this.Text = "Plots";

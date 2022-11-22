@@ -15,7 +15,7 @@ namespace QueuingSystemCoursework
     private LinkedList<(string, string, string, string, string, Request[], int?)> tableRows;
 
     private int bufferPointer = 0;
-    public StepModeForm(MainStepMode main)
+    public StepModeForm(Simulation main)
     {
       InitializeComponent();
       this.main = main;
@@ -49,7 +49,7 @@ namespace QueuingSystemCoursework
       column7.HeaderText = column7.Name;
 
       DataGridViewTextBoxColumn column8 = new DataGridViewTextBoxColumn();
-      column8.Name = "Elements";
+      column8.Name = "Request number";
       column8.HeaderText = column8.Name;
 
       this.dataGridView1.Columns.Add(column1);

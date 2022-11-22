@@ -73,7 +73,7 @@ namespace QueuingSystemCoursework
 
       if (textBox2.Text.Length > 0 && textBox3.Text.Length > 0)
       {
-        double alpha, beta, minLambda = 0, maxLambda = 0, lambdaStep = 0;
+        double alpha, beta, lambda = 0, minLambda = 0, maxLambda = 0, lambdaStep = 0;
 
         try
         {
@@ -130,29 +130,19 @@ namespace QueuingSystemCoursework
             {
               MessageBox.Show("You have to enter minimum and maximum average amount of time\nneeded to serve request parameters", "Error", MessageBoxButtons.OK);
             }
-            
-            chart1.Legends.Clear();
-            if (chart1.Series.Count > 1)
-            {
-              Series series = chart1.Series[0];
-              chart1.Series.Clear();
-              chart1.Series.Add(series);
-            }
-            chart1.Series[0].Points.Clear();
+
+            InitializeChart();
 
             progressBar1.Maximum = (int)numericUpDown4.Value + 1;
             progressBar1.Visible = true;
             progressBar1.Value = 0;
-
-            chart1.ChartAreas["ChartArea1"].AxisX.Title = comboBox2.Text;
-            chart1.ChartAreas["ChartArea1"].AxisY.Title = comboBox1.Text;
 
             switch (comboBox1.Text)
             {
               case "probability of refuse":
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  MainStepMode main = new MainStepMode(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  Simulation main = new Simulation(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = main.doAutomaticSimulation();
 
@@ -163,7 +153,7 @@ namespace QueuingSystemCoursework
               case "average request in system time":
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  MainStepMode main = new MainStepMode(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  Simulation main = new Simulation(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = main.doAutomaticSimulation();
 
@@ -172,20 +162,18 @@ namespace QueuingSystemCoursework
                 }
                 break;
               case "devices usage coefficients":
-                chart1.Legends.Add("D1");
+                chart1.Legends.Add("Legend1");
                 chart1.Legends[0].Font = chart1.Series[0].Font;
                 for (int i = 1; i < (int)numericUpDown6.Value; i++)
                 {
                   chart1.Series.Add("D" + (i + 1));
                   chart1.Series[i].ChartType = chart1.Series[0].ChartType;
                   chart1.Series[i].BorderWidth = chart1.Series[0].BorderWidth;
-                  chart1.Legends.Add("D" + (i + 1));
-                  chart1.Legends[i].Font = chart1.Series[0].Font;
                 }
 
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  MainStepMode main = new MainStepMode(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  Simulation main = new Simulation(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = main.doAutomaticSimulation();
 
@@ -203,11 +191,166 @@ namespace QueuingSystemCoursework
             break;
 
           case "amount of devices":
+            if (numericUpDown5.Value > numericUpDown1.Value)
+            {
+              MessageBox.Show("Maximum amount of devices can not be less than minimum", "Error", MessageBoxButtons.OK);
+              return;
+            }
+
+            try
+            {
+              lambda = Convert.ToDouble(this.textBox5.Text);
+
+              if (lambda <= 0.0)
+              {
+                MessageBox.Show("Average amounts of requests per time unit must be more than zero", "Error", MessageBoxButtons.OK);
+                return;
+              }
+            }
+            catch
+            {
+              MessageBox.Show("Error parsing double value. Incorrect string(s)", "Error", MessageBoxButtons.OK);
+              return;
+            }
+
+            InitializeChart();
+
+            progressBar1.Maximum = (int)(numericUpDown1.Value - numericUpDown5.Value);
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
+
+            switch (comboBox1.Text)
+            {
+              case "probability of refuse":
+                for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
+                {
+                  Simulation main = new Simulation(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  var result = main.doAutomaticSimulation();
+
+                  chart1.Series[0].Points.AddXY(i, result.Item1);
+                  progressBar1.PerformStep();
+                }
+                break;
+
+              case "average request in system time":
+                for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
+                {
+                  Simulation main = new Simulation(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  var result = main.doAutomaticSimulation();
+
+                  chart1.Series[0].Points.AddXY(i, result.Item2);
+                  progressBar1.PerformStep();
+                }
+                break;
+                
+              case "devices usage coefficients":
+                chart1.Legends.Add("Legend1");
+                chart1.Legends[0].Font = chart1.Series[0].Font;
+                for (int i = 1; i < (int)numericUpDown1.Value; i++)
+                {
+                  chart1.Series.Add("D" + (i + 1));
+                  chart1.Series[i].ChartType = chart1.Series[0].ChartType;
+                  chart1.Series[i].BorderWidth = chart1.Series[0].BorderWidth;
+                }
+
+                for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
+                {
+                  Simulation main = new Simulation(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  var result = main.doAutomaticSimulation();
+
+                  for (int j = 0; j < result.Item3.Length; j++)
+                  {
+                    chart1.Series[j].Points.AddXY(i, result.Item3[j]);
+                  }
+
+                  progressBar1.PerformStep();
+                }
+                break;
+            }
+
+            progressBar1.Visible = false;
 
             break;
 
           case "buffer length":
+            if (numericUpDown8.Value > numericUpDown9.Value)
+            {
+              MessageBox.Show("Maximum buffer length can not be less than minimum", "Error", MessageBoxButtons.OK);
+              return;
+            }
 
+            try
+            {
+              lambda = Convert.ToDouble(this.textBox5.Text);
+
+              if (lambda <= 0.0)
+              {
+                MessageBox.Show("Average amounts of requests per time unit must be more than zero", "Error", MessageBoxButtons.OK);
+                return;
+              }
+            }
+            catch
+            {
+              MessageBox.Show("Error parsing double value. Incorrect string(s)", "Error", MessageBoxButtons.OK);
+              return;
+            }
+
+            InitializeChart();
+
+            progressBar1.Maximum = (int)(numericUpDown9.Value - numericUpDown8.Value);
+            progressBar1.Visible = true;
+            progressBar1.Value = 0;
+
+            switch (comboBox1.Text)
+            {
+              case "probability of refuse":
+                for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
+                {
+                  Simulation main = new Simulation(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  var result = main.doAutomaticSimulation();
+
+                  chart1.Series[0].Points.AddXY(i, result.Item1);
+                  progressBar1.PerformStep();
+                }
+                break;
+
+              case "average request in system time":
+                for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
+                {
+                  Simulation main = new Simulation(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  var result = main.doAutomaticSimulation();
+
+                  chart1.Series[0].Points.AddXY(i, result.Item2);
+                  progressBar1.PerformStep();
+                }
+                break;
+
+              case "devices usage coefficients":
+                chart1.Legends.Add("Legend1");
+                chart1.Legends[0].Font = chart1.Series[0].Font;
+                for (int i = 1; i < (int)numericUpDown6.Value; i++)
+                {
+                  chart1.Series.Add("D" + (i + 1));
+                  chart1.Series[i].ChartType = chart1.Series[0].ChartType;
+                  chart1.Series[i].BorderWidth = chart1.Series[0].BorderWidth;
+                }
+
+                for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
+                {
+                  Simulation main = new Simulation(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  var result = main.doAutomaticSimulation();
+
+                  for (int j = 0; j < chart1.Series.Count; j++)
+                  {
+                    chart1.Series[j].Points.AddXY(i, result.Item3[j]);
+                  }
+
+                  progressBar1.PerformStep();
+                }
+                break;
+            }
+
+            progressBar1.Visible = false;
             break;
         }
       }
@@ -216,6 +359,21 @@ namespace QueuingSystemCoursework
         MessageBox.Show("You have to enter constant parameters", "Error", MessageBoxButtons.OK);
       }
 
+    }
+
+    private void InitializeChart()
+    {
+      chart1.Legends.Clear();
+      if (chart1.Series.Count > 1)
+      {
+        Series series = chart1.Series[0];
+        chart1.Series.Clear();
+        chart1.Series.Add(series);
+      }
+      chart1.Series[0].Points.Clear();
+
+      chart1.ChartAreas["ChartArea1"].AxisX.Title = comboBox2.Text;
+      chart1.ChartAreas["ChartArea1"].AxisY.Title = comboBox1.Text;
     }
 
   }

@@ -5,22 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Refactor: Statistics - non-static, Init() instead of constructor
+
 namespace QueuingSystemCoursework
 {
-  internal class MainStepMode
+  internal class Simulation
   {
-    private double systemTime = 0;
+    private double systemTime;
 
     private double lambda;
     private double alpha;
     private double beta;
     private int bufferLength;
 
-    private int bufferElementsCounter = 0;
+    private int bufferElementsCounter;
     private int amountOfDevices;
     private int amountOfRequests;
 
-    private bool isSimulationDone = false;
+    private bool isSimulationDone;
 
     private Source source;
     private LinkedList<Request> requestList;
@@ -31,9 +33,11 @@ namespace QueuingSystemCoursework
 
     public int BufferLength { get => bufferLength; }
 
-    public MainStepMode(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
+    public Simulation(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
     {
       Statistics.clear();
+      this.isSimulationDone = false;
+      this.systemTime = 0;
 
       this.lambda = lambda;
       this.alpha = alpha;
@@ -44,6 +48,7 @@ namespace QueuingSystemCoursework
 
       this.source = new Source(lambda);
       this.buffer = new Request[bufferLength];
+      this.bufferElementsCounter = 0;
 
       requestList = new LinkedList<Request>();
       for (int i = 0; i < amountOfRequests; i++)
@@ -60,6 +65,36 @@ namespace QueuingSystemCoursework
       this.insertionManager = new InsertionManager(buffer);
       this.extractionManager = new ExtractionManager(buffer, devices);
     }
+
+    //public void Init(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
+    //{
+    //  Statistics.clear();
+
+    //  this.lambda = lambda;
+    //  this.alpha = alpha;
+    //  this.beta = beta;
+    //  this.bufferLength = bufferLength;
+    //  this.amountOfDevices = amountOfDevices;
+    //  this.amountOfRequests = amountOfRequests;
+
+    //  this.source = new Source(lambda);
+    //  this.buffer = new Request[bufferLength];
+
+    //  requestList = new LinkedList<Request>();
+    //  for (int i = 0; i < amountOfRequests; i++)
+    //  {
+    //    requestList.AddLast(source.generateRequest());
+    //  }
+
+    //  this.devices = new Device[amountOfDevices];
+    //  for (int i = 0; i < amountOfDevices; i++)
+    //  {
+    //    devices[i] = (new Device(i + 1));
+    //  }
+
+    //  this.insertionManager = new InsertionManager(buffer);
+    //  this.extractionManager = new ExtractionManager(buffer, devices);
+    //}
 
     public LinkedList<(string, string, string, string, string, Request[], int?)> NextStep()
     {
