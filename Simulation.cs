@@ -27,7 +27,7 @@ namespace QueuingSystemCoursework
       this.isInitialized = false;
     }
 
-    public void Init(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
+    public void init(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
     {
       this.isSimulationDone = false;
       this.systemTime = 0;
@@ -56,15 +56,15 @@ namespace QueuingSystemCoursework
       this.isInitialized = true;
     }
 
-    public LinkedList<(string, string, string, string, string, Request[], int?)> NextStep()
+    public LinkedList<SystemStateSnapshot> nextStep()
     {
       if (!isInitialized)
       {
         throw new Exception("Simulation is not initialized");
       }
 
-      LinkedList<(string, string, string, string, string, Request[], int?)> result =
-        new LinkedList<(string, string, string, string, string, Request[], int?)>();
+      LinkedList<SystemStateSnapshot> result =
+        new LinkedList<SystemStateSnapshot>();
 
       if (!isSimulationDone)
       {
@@ -103,7 +103,7 @@ namespace QueuingSystemCoursework
           result.AddLast(devices[earliestDeviceEndServiceTimeIndex].endServiceStepMode(systemTime));
           if (bufferElementsCounter > 0)
           {
-            LinkedList<(string, string, string, string, string, Request[], int?)> list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime);
+            LinkedList<SystemStateSnapshot> list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime);
             result.AddLast(list.ElementAt(0));
             result.AddLast(list.ElementAt(1));
             bufferElementsCounter--;
@@ -113,7 +113,7 @@ namespace QueuingSystemCoursework
         {
           int oldRefusedRequestsCounter = statistics.RefusedRequestsCounter;
           systemTime = requestList.ElementAt(0).GenerationTime;
-          LinkedList<(string, string, string, string, string, Request[], int?)> list = insertionManager.insertRequestIntoBufferStepMode(requestList.ElementAt(0), systemTime);
+          LinkedList<SystemStateSnapshot> list = insertionManager.insertRequestIntoBufferStepMode(requestList.ElementAt(0), systemTime);
           result.AddLast(list.ElementAt(0));
 
           if (statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
@@ -140,7 +140,7 @@ namespace QueuingSystemCoursework
       return result;
     }
 
-    public (double, double, double[]) doAutomaticSimulation()
+    public SimulationResults doAutomaticSimulation()
     {
       if (!isInitialized)
       {
@@ -216,7 +216,7 @@ namespace QueuingSystemCoursework
       }
 
       // Probability of refuse, average request in system time, average device usage coefficient
-      return ((double)statistics.RefusedRequestsCounter / statistics.GeneratedRequestsCounter,
+      return new SimulationResults((double)statistics.RefusedRequestsCounter / statistics.GeneratedRequestsCounter,
         statistics.RequestsInSystemTime / statistics.GeneratedRequestsCounter, deviceUsageCoefficients);
     }
   }

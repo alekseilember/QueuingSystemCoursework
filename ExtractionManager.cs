@@ -19,7 +19,7 @@ namespace QueuingSystemCoursework
       this.statistics = statistics;
     }
 
-    public LinkedList<(string, string, string, string, string, Request[], int?)> extractRequestAndPassToDeviceStepMode(double systemTime)
+    public LinkedList<SystemStateSnapshot> extractRequestAndPassToDeviceStepMode(double systemTime)
     {
       int indexOfEarliestRequest = -1;
 
@@ -36,7 +36,7 @@ namespace QueuingSystemCoursework
         throw new Exception("Buffer is empty");
       }
 
-      LinkedList<(string, string, string, string, string, Request[], int?)> result = new LinkedList<(string, string, string, string, string, Request[], int?)>();
+      LinkedList<SystemStateSnapshot> result = new LinkedList<SystemStateSnapshot>();
 
       for (int i = 0; i < devices.Length; i++)
       {
@@ -44,7 +44,7 @@ namespace QueuingSystemCoursework
         {
           Request request = buffer[indexOfEarliestRequest];
           buffer[indexOfEarliestRequest] = null;
-          result.AddLast(("EM", systemTime.ToString(), "extract " + request.Number, statistics.ServedRequestsCounter.ToString(),
+          result.AddLast(new SystemStateSnapshot("EM", systemTime.ToString(), "extract " + request.Number, statistics.ServedRequestsCounter.ToString(),
         statistics.RefusedRequestsCounter.ToString(), buffer, null));
 
           result.AddLast(devices[i].startServiceStepMode(request, systemTime));

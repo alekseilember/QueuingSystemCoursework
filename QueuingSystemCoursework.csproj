@@ -66,6 +66,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
+    <Compile Include="SimulationResults.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="StepModeForm.cs">
@@ -86,6 +87,7 @@
     <Compile Include="StepModeSimulationResultsForm.Designer.cs">
       <DependentUpon>StepModeSimulationResultsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SystemStateSnapshot.cs" />
     <EmbeddedResource Include="AutomaticModePlotsForm.resx">
       <DependentUpon>AutomaticModePlotsForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -143,7 +143,7 @@
       this.comboBox1.Items.AddRange(new object[] {
             "probability of refuse",
             "average request in system time",
-            "devices usage coefficients"});
+            "device usage coefficients"});
       this.comboBox1.Location = new System.Drawing.Point(141, 51);
       this.comboBox1.Name = "comboBox1";
       this.comboBox1.Size = new System.Drawing.Size(275, 29);

@@ -14,12 +14,10 @@ namespace QueuingSystemCoursework
     private double alpha;
     private double beta;
 
-    private int servedRequestsCounter = 0;
     private double startServiceTime;        //время поступения заявки
 
     private double endServiceTime = 0;          //время ухода из прибора
     private double fullInServiceTime = 0;       //время обработки заявок этим прибором
-    private double inServiceTime;         //время, которое нужно на обработку
 
     private Random random;
 
@@ -36,7 +34,7 @@ namespace QueuingSystemCoursework
       this.statistics = statistics;
     }
 
-    public (string, string, string, string, string, Request[], int?) startServiceStepMode(Request request, double systemTime)
+    public SystemStateSnapshot startServiceStepMode(Request request, double systemTime)
     {
       if (!isFree())
       {
@@ -46,11 +44,10 @@ namespace QueuingSystemCoursework
       this.request = request;
       startServiceTime = systemTime;
 
-      inServiceTime = (beta - alpha) * random.NextDouble() + alpha;
-      endServiceTime = startServiceTime + inServiceTime;
+      endServiceTime = startServiceTime + (beta - alpha) * random.NextDouble() + alpha;
 
-      return ("D" + this.number.ToString(), systemTime.ToString(), "start service " + request.Number, statistics.ServedRequestsCounter.ToString(),
-        statistics.RefusedRequestsCounter.ToString(), null, null);
+      return new SystemStateSnapshot("D" + this.number.ToString(), systemTime.ToString(), "start service " + request.Number,
+        statistics.ServedRequestsCounter.ToString(), statistics.RefusedRequestsCounter.ToString(), null, null);
     }
 
     public void startServiceAutomaticMode(Request request, double systemTime)
@@ -63,30 +60,27 @@ namespace QueuingSystemCoursework
       this.request = request;
       startServiceTime = systemTime;
 
-      inServiceTime = (beta - alpha) * random.NextDouble() + alpha;
-      endServiceTime = startServiceTime + inServiceTime;
+      endServiceTime = startServiceTime + (beta - alpha) * random.NextDouble() + alpha;
     }
 
-    public (string, string, string, string, string, Request[], int?) endServiceStepMode(double systemTime)
+    public SystemStateSnapshot endServiceStepMode(double systemTime)
     {
-      fullInServiceTime += inServiceTime;
+      fullInServiceTime += endServiceTime - startServiceTime;
       statistics.addServedRequest();
       statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
-      this.addServedRequest();
 
       int requestNumber = request.Number;
       request = null;
 
-      return ("D" + this.number.ToString(), systemTime.ToString(), "end service " + requestNumber, statistics.ServedRequestsCounter.ToString(),
+      return new SystemStateSnapshot("D" + this.number.ToString(), systemTime.ToString(), "end service " + requestNumber, statistics.ServedRequestsCounter.ToString(),
         statistics.RefusedRequestsCounter.ToString(), null, null);
     }
 
     public void endServiceAutomaticMode()
     {
-      fullInServiceTime += inServiceTime;
+      fullInServiceTime += endServiceTime - startServiceTime;
       statistics.addServedRequest();
       statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
-      this.addServedRequest();
 
       request = null;
     }
@@ -99,13 +93,6 @@ namespace QueuingSystemCoursework
     public int Number => number;
 
     public double FullInServiceTime => fullInServiceTime;
-
-    public int ServedRequestsCounter => servedRequestsCounter;
-
-    private void addServedRequest()
-    {
-      servedRequestsCounter++;
-    }
 
     public double EndServiceTime => endServiceTime;
   }

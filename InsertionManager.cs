@@ -18,10 +18,10 @@ namespace QueuingSystemCoursework
       this.statistics = statistics;
     }
 
-    public LinkedList<(string, string, string, string, string, Request[], int?)> insertRequestIntoBufferStepMode(Request request, double systemTime)
+    public LinkedList<SystemStateSnapshot> insertRequestIntoBufferStepMode(Request request, double systemTime)
     {
-      LinkedList<(string, string, string, string, string, Request[], int?)> result =
-        new LinkedList<(string, string, string, string, string, Request[], int?)>();
+      LinkedList<SystemStateSnapshot> result =
+        new LinkedList<SystemStateSnapshot>();
       if (buffer[bufferPointer] != null)
       {
         statistics.addRefusedRequest();
@@ -29,14 +29,14 @@ namespace QueuingSystemCoursework
         int requestNumber = buffer[bufferPointer].Number;
         buffer[bufferPointer] = null;
 
-        result.AddLast(("IM", systemTime.ToString(), "refuse " + requestNumber, statistics.ServedRequestsCounter.ToString(),
+        result.AddLast(new SystemStateSnapshot("IM", systemTime.ToString(), "refuse " + requestNumber, statistics.ServedRequestsCounter.ToString(),
         statistics.RefusedRequestsCounter.ToString(), buffer.ToArray(), bufferPointer));
       }
 
       buffer[bufferPointer] = request;
       bufferPointer = (bufferPointer + 1) % buffer.Length;
 
-      result.AddLast(("IM", systemTime.ToString(), "insert " + request.Number, statistics.ServedRequestsCounter.ToString(),
+      result.AddLast(new SystemStateSnapshot("IM", systemTime.ToString(), "insert " + request.Number, statistics.ServedRequestsCounter.ToString(),
         statistics.RefusedRequestsCounter.ToString(), buffer.ToArray(), bufferPointer));
 
       return result;

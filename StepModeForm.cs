@@ -12,14 +12,14 @@ namespace QueuingSystemCoursework
 {
   internal partial class StepModeForm : Form
   {
-    private LinkedList<(string, string, string, string, string, Request[], int?)> tableRows;
+    private LinkedList<SystemStateSnapshot> tableRows;
 
     private int bufferPointer = 0;
     public StepModeForm(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
     {
       InitializeComponent();
       this.simulation = new Simulation();
-      simulation.Init(lambda, alpha, beta, bufferLength, amountOfDevices, amountOfRequests);
+      simulation.init(lambda, alpha, beta, bufferLength, amountOfDevices, amountOfRequests);
 
       DataGridViewTextBoxColumn column1 = new DataGridViewTextBoxColumn();
       column1.Name = "System element";
@@ -63,7 +63,7 @@ namespace QueuingSystemCoursework
       this.dataGridView2.Columns.Add(column7);
       this.dataGridView2.Columns.Add(column8);
 
-      tableRows = simulation.NextStep();
+      tableRows = simulation.nextStep();
 
       dataGridView2.Rows.Add(bufferLength - 1);
       for (int i = 0; i < dataGridView2.Rows.Count; i++)
@@ -78,27 +78,28 @@ namespace QueuingSystemCoursework
     {
       if (tableRows.Count == 0)
       {
-        tableRows = simulation.NextStep();
+        tableRows = simulation.nextStep();
       }
 
       if (tableRows.Count > 0)
       {
-        (string, string, string, string, string, Request[], int?) tableRow = tableRows.ElementAt(0);
-        this.dataGridView1.Rows.Add(tableRow.Item1, tableRow.Item2, tableRow.Item3, tableRow.Item4, tableRow.Item5);
+        SystemStateSnapshot tableRow = tableRows.ElementAt(0);
+        this.dataGridView1.Rows.Add(tableRow.SystemElement, tableRow.Time, tableRow.Action, tableRow.ServedRequestsCounter,
+          tableRow.RefusedRequestsCounter);
         this.dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
 
-        if (tableRow.Item6 != null)
+        if (tableRow.Buffer != null)
         {
           for (int i = 0; i < dataGridView2.Rows.Count; i++)
           {
-            dataGridView2.Rows[i].Cells["Request number"].Value = tableRow.Item6[i] == null ? "null" : tableRow.Item6[i].Number.ToString();
+            dataGridView2.Rows[i].Cells["Request number"].Value = tableRow.Buffer[i] == null ? "null" : tableRow.Buffer[i].Number.ToString();
           }
         }
 
-        if (tableRow.Item7 != null)
+        if (tableRow.BufferPointer != null)
         {
           dataGridView2.Rows[bufferPointer].Cells["Pointer"].Value = "";
-          bufferPointer = (int)tableRow.Item7;
+          bufferPointer = (int)tableRow.BufferPointer;
           dataGridView2.Rows[bufferPointer].Cells["Pointer"].Value = "-->";
         }
 
@@ -107,7 +108,8 @@ namespace QueuingSystemCoursework
       else
       {
         var resultSet = simulation.doAutomaticSimulation();
-        StepModeSimulationResultsForm stepModeSimulationResultsForm = new StepModeSimulationResultsForm(resultSet.Item1, resultSet.Item2, resultSet.Item3);
+        StepModeSimulationResultsForm stepModeSimulationResultsForm = new StepModeSimulationResultsForm(resultSet.ProbabilityOfRefuse,
+          resultSet.AverageRequestInSystemTime, resultSet.DeviceUsageCoefficients);
         stepModeSimulationResultsForm.FormClosing += delegate { this.Show(); };
         Hide();
         stepModeSimulationResultsForm.ShowDialog();
@@ -126,13 +128,14 @@ namespace QueuingSystemCoursework
       {
         if (tableRows.Count == 0)
         {
-          tableRows = simulation.NextStep();
+          tableRows = simulation.nextStep();
         }
 
         if (tableRows.Count > 0)
         {
-          (string, string, string, string, string, Request[], int?) tableRow = tableRows.ElementAt(0);
-          this.dataGridView1.Rows.Add(tableRow.Item1, tableRow.Item2, tableRow.Item3, tableRow.Item4, tableRow.Item5);
+          SystemStateSnapshot tableRow = tableRows.ElementAt(0);
+          this.dataGridView1.Rows.Add(tableRow.SystemElement, tableRow.Time, tableRow.Action, tableRow.ServedRequestsCounter,
+            tableRow.RefusedRequestsCounter);
           this.dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
           tableRows.RemoveFirst();
         }
@@ -142,7 +145,8 @@ namespace QueuingSystemCoursework
         }
       }
       var resultSet = simulation.doAutomaticSimulation();
-      StepModeSimulationResultsForm stepModeSimulationResultsForm = new StepModeSimulationResultsForm(resultSet.Item1, resultSet.Item2, resultSet.Item3);
+      StepModeSimulationResultsForm stepModeSimulationResultsForm = new StepModeSimulationResultsForm(resultSet.ProbabilityOfRefuse,
+        resultSet.AverageRequestInSystemTime, resultSet.DeviceUsageCoefficients);
       stepModeSimulationResultsForm.FormClosing += delegate { this.Show(); };
       Hide();
       stepModeSimulationResultsForm.ShowDialog();

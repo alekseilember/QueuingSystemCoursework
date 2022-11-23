@@ -145,26 +145,26 @@ namespace QueuingSystemCoursework
               case "probability of refuse":
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  simulation.Init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  simulation.init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  chart1.Series[0].Points.AddXY(minLambda + i * lambdaStep, result.Item1);
+                  chart1.Series[0].Points.AddXY(minLambda + i * lambdaStep, result.ProbabilityOfRefuse);
                   progressBar1.PerformStep();
                 }
                 break;
               case "average request in system time":
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  simulation.Init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  simulation.init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  chart1.Series[0].Points.AddXY(minLambda + i * lambdaStep, result.Item2);
+                  chart1.Series[0].Points.AddXY(minLambda + i * lambdaStep, result.AverageRequestInSystemTime);
                   progressBar1.PerformStep();
                 }
                 break;
-              case "devices usage coefficients":
+              case "device usage coefficients":
                 chart1.Legends.Add("Legend1");
                 chart1.Legends[0].Font = chart1.Series[0].Font;
                 for (int i = 1; i < (int)numericUpDown6.Value; i++)
@@ -176,13 +176,13 @@ namespace QueuingSystemCoursework
 
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  simulation.Init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  simulation.init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
                   for (int j = 0; j < chart1.Series.Count; j++)
                   {
-                    chart1.Series[j].Points.AddXY(minLambda + i * lambdaStep, result.Item3[j]);
+                    chart1.Series[j].Points.AddXY(minLambda + i * lambdaStep, result.DeviceUsageCoefficients[j]);
                   }
 
                   progressBar1.PerformStep();
@@ -227,10 +227,10 @@ namespace QueuingSystemCoursework
               case "probability of refuse":
                 for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
                 {
-                  simulation.Init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  simulation.init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  chart1.Series[0].Points.AddXY(i, result.Item1);
+                  chart1.Series[0].Points.AddXY(i, result.ProbabilityOfRefuse);
                   progressBar1.PerformStep();
                 }
                 break;
@@ -238,15 +238,15 @@ namespace QueuingSystemCoursework
               case "average request in system time":
                 for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
                 {
-                  simulation.Init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  simulation.init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  chart1.Series[0].Points.AddXY(i, result.Item2);
+                  chart1.Series[0].Points.AddXY(i, result.AverageRequestInSystemTime);
                   progressBar1.PerformStep();
                 }
                 break;
                 
-              case "devices usage coefficients":
+              case "device usage coefficients":
                 chart1.Legends.Add("Legend1");
                 chart1.Legends[0].Font = chart1.Series[0].Font;
                 for (int i = 1; i < (int)numericUpDown1.Value; i++)
@@ -258,12 +258,12 @@ namespace QueuingSystemCoursework
 
                 for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
                 {
-                  simulation.Init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  simulation.init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  for (int j = 0; j < result.Item3.Length; j++)
+                  for (int j = 0; j < result.DeviceUsageCoefficients.Length; j++)
                   {
-                    chart1.Series[j].Points.AddXY(i, result.Item3[j]);
+                    chart1.Series[j].Points.AddXY(i, result.DeviceUsageCoefficients[j]);
                   }
 
                   progressBar1.PerformStep();
@@ -309,10 +309,10 @@ namespace QueuingSystemCoursework
               case "probability of refuse":
                 for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
                 {
-                  simulation.Init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  simulation.init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  chart1.Series[0].Points.AddXY(i, result.Item1);
+                  chart1.Series[0].Points.AddXY(i, result.ProbabilityOfRefuse);
                   progressBar1.PerformStep();
                 }
                 break;
@@ -320,15 +320,15 @@ namespace QueuingSystemCoursework
               case "average request in system time":
                 for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
                 {
-                  simulation.Init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  simulation.init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
-                  chart1.Series[0].Points.AddXY(i, result.Item2);
+                  chart1.Series[0].Points.AddXY(i, result.AverageRequestInSystemTime);
                   progressBar1.PerformStep();
                 }
                 break;
 
-              case "devices usage coefficients":
+              case "device usage coefficients":
                 chart1.Legends.Add("Legend1");
                 chart1.Legends[0].Font = chart1.Series[0].Font;
                 for (int i = 1; i < (int)numericUpDown6.Value; i++)
@@ -340,12 +340,12 @@ namespace QueuingSystemCoursework
 
                 for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
                 {
-                  simulation.Init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  simulation.init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
                   var result = simulation.doAutomaticSimulation();
 
                   for (int j = 0; j < chart1.Series.Count; j++)
                   {
-                    chart1.Series[j].Points.AddXY(i, result.Item3[j]);
+                    chart1.Series[j].Points.AddXY(i, result.DeviceUsageCoefficients[j]);
                   }
 
                   progressBar1.PerformStep();
