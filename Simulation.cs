@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Refactor: Statistics - non-static, Init() instead of constructor, results in step mode, readme.md с расшифровкой варианта
+//Refactor: results in step mode, readme.md с расшифровкой варианта
 
 namespace QueuingSystemCoursework
 {
@@ -13,16 +13,11 @@ namespace QueuingSystemCoursework
   {
     private double systemTime;
 
-    private double lambda;
-    private double alpha;
-    private double beta;
-    private int bufferLength;
-
     private int bufferElementsCounter;
-    private int amountOfDevices;
-    private int amountOfRequests;
 
+    private bool isInitialized;
     private bool isSimulationDone;
+    private Statistics statistics;
 
     private Source source;
     private LinkedList<Request> requestList;
@@ -31,22 +26,18 @@ namespace QueuingSystemCoursework
     private ExtractionManager extractionManager;
     private Device[] devices;
 
-    public int BufferLength { get => bufferLength; }
-
-    public Simulation(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
+    public Simulation()
     {
-      Statistics.clear();
+      this.isInitialized = false;
+    }
+
+    public void Init(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
+    {
       this.isSimulationDone = false;
       this.systemTime = 0;
+      this.statistics = new Statistics();
 
-      this.lambda = lambda;
-      this.alpha = alpha;
-      this.beta = beta;
-      this.bufferLength = bufferLength;
-      this.amountOfDevices = amountOfDevices;
-      this.amountOfRequests = amountOfRequests;
-
-      this.source = new Source(lambda);
+      this.source = new Source(lambda, statistics);
       this.buffer = new Request[bufferLength];
       this.bufferElementsCounter = 0;
 
@@ -59,45 +50,22 @@ namespace QueuingSystemCoursework
       this.devices = new Device[amountOfDevices];
       for (int i = 0; i < amountOfDevices; i++)
       {
-        devices[i] = (new Device(i + 1));
+        devices[i] = (new Device(i + 1, alpha, beta, statistics));
       }
 
-      this.insertionManager = new InsertionManager(buffer);
-      this.extractionManager = new ExtractionManager(buffer, devices);
+      this.insertionManager = new InsertionManager(buffer, statistics);
+      this.extractionManager = new ExtractionManager(buffer, devices, statistics);
+
+      this.isInitialized = true;
     }
-
-    //public void Init(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
-    //{
-    //  Statistics.clear();
-
-    //  this.lambda = lambda;
-    //  this.alpha = alpha;
-    //  this.beta = beta;
-    //  this.bufferLength = bufferLength;
-    //  this.amountOfDevices = amountOfDevices;
-    //  this.amountOfRequests = amountOfRequests;
-
-    //  this.source = new Source(lambda);
-    //  this.buffer = new Request[bufferLength];
-
-    //  requestList = new LinkedList<Request>();
-    //  for (int i = 0; i < amountOfRequests; i++)
-    //  {
-    //    requestList.AddLast(source.generateRequest());
-    //  }
-
-    //  this.devices = new Device[amountOfDevices];
-    //  for (int i = 0; i < amountOfDevices; i++)
-    //  {
-    //    devices[i] = (new Device(i + 1));
-    //  }
-
-    //  this.insertionManager = new InsertionManager(buffer);
-    //  this.extractionManager = new ExtractionManager(buffer, devices);
-    //}
 
     public LinkedList<(string, string, string, string, string, Request[], int?)> NextStep()
     {
+      if (!isInitialized)
+      {
+        throw new Exception("Simulation is not initialized");
+      }
+
       LinkedList<(string, string, string, string, string, Request[], int?)> result =
         new LinkedList<(string, string, string, string, string, Request[], int?)>();
 
@@ -138,7 +106,7 @@ namespace QueuingSystemCoursework
           result.AddLast(devices[earliestDeviceEndServiceTimeIndex].endServiceStepMode(systemTime));
           if (bufferElementsCounter > 0)
           {
-            LinkedList<(string, string, string, string, string, Request[], int?)> list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime, alpha, beta);
+            LinkedList<(string, string, string, string, string, Request[], int?)> list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime);
             result.AddLast(list.ElementAt(0));
             result.AddLast(list.ElementAt(1));
             bufferElementsCounter--;
@@ -146,12 +114,12 @@ namespace QueuingSystemCoursework
         }
         else
         {
-          int oldRefusedRequestsCounter = Statistics.RefusedRequestsCounter;
+          int oldRefusedRequestsCounter = statistics.RefusedRequestsCounter;
           systemTime = requestList.ElementAt(0).GenerationTime;
           LinkedList<(string, string, string, string, string, Request[], int?)> list = insertionManager.insertRequestIntoBufferStepMode(requestList.ElementAt(0), systemTime);
           result.AddLast(list.ElementAt(0));
 
-          if (Statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
+          if (statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
           {
             bufferElementsCounter++;
           }
@@ -162,7 +130,7 @@ namespace QueuingSystemCoursework
 
           if (!isAllDevicesBusy)
           {
-            list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime, alpha, beta);
+            list = extractionManager.extractRequestAndPassToDeviceStepMode(systemTime);
             result.AddLast(list.ElementAt(0));
             result.AddLast(list.ElementAt(1));
             bufferElementsCounter--;
@@ -177,6 +145,11 @@ namespace QueuingSystemCoursework
 
     public (double, double, double[]) doAutomaticSimulation()
     {
+      if (!isInitialized)
+      {
+        throw new Exception("Simulation is not initialized");
+      }
+
       while (!isSimulationDone)
       {
         bool isAllDevicesFree = true;
@@ -211,27 +184,27 @@ namespace QueuingSystemCoursework
         if (!isAllDevicesFree && (requestList.Count == 0 || devices[earliestDeviceEndServiceTimeIndex].EndServiceTime < requestList.ElementAt(0).GenerationTime))
         {
           systemTime = devices[earliestDeviceEndServiceTimeIndex].EndServiceTime;
-          devices[earliestDeviceEndServiceTimeIndex].endServiceAutomaticMode(systemTime);
+          devices[earliestDeviceEndServiceTimeIndex].endServiceAutomaticMode();
           if (bufferElementsCounter > 0)
           {
-            extractionManager.extractRequestAndPassToDeviceAutomaticMode(systemTime, alpha, beta);
+            extractionManager.extractRequestAndPassToDeviceAutomaticMode(systemTime);
             bufferElementsCounter--;
           }
         }
         else
         {
-          int oldRefusedRequestsCounter = Statistics.RefusedRequestsCounter;
+          int oldRefusedRequestsCounter = statistics.RefusedRequestsCounter;
           systemTime = requestList.ElementAt(0).GenerationTime;
           insertionManager.insertRequestIntoBufferAutomaticMode(requestList.ElementAt(0), systemTime);
 
-          if (Statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
+          if (statistics.RefusedRequestsCounter == oldRefusedRequestsCounter)
           {
             bufferElementsCounter++;
           }
 
           if (!isAllDevicesBusy)
           {
-            extractionManager.extractRequestAndPassToDeviceAutomaticMode(systemTime, alpha, beta);
+            extractionManager.extractRequestAndPassToDeviceAutomaticMode(systemTime);
             bufferElementsCounter--;
           }
 
@@ -246,8 +219,8 @@ namespace QueuingSystemCoursework
       }
 
       // Probability of refuse, average request in system time, average device usage coefficient
-      return ((double)Statistics.RefusedRequestsCounter / Statistics.GeneratedRequestsCounter,
-        Statistics.RequestsInSystemTime / Statistics.GeneratedRequestsCounter, deviceUsageCoefficients);
+      return ((double)statistics.RefusedRequestsCounter / statistics.GeneratedRequestsCounter,
+        statistics.RequestsInSystemTime / statistics.GeneratedRequestsCounter, deviceUsageCoefficients);
     }
   }
 }

@@ -186,7 +186,7 @@ namespace QueuingSystemCoursework
     private Button button1;
     private Button button2;
 
-    private Simulation main;
+    private Simulation simulation;
     private Button button3;
     private DataGridView dataGridView2;
   }

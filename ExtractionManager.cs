@@ -10,13 +10,16 @@ namespace QueuingSystemCoursework
   {
     private Request[] buffer;
     private Device[] devices;
-    public ExtractionManager(Request[] buffer, Device[] devices)
+
+    private Statistics statistics;
+    public ExtractionManager(Request[] buffer, Device[] devices, Statistics statistics)
     {
       this.buffer = buffer;
       this.devices = devices;
+      this.statistics = statistics;
     }
 
-    public LinkedList<(string, string, string, string, string, Request[], int?)> extractRequestAndPassToDeviceStepMode(double systemTime, double alpha, double beta)
+    public LinkedList<(string, string, string, string, string, Request[], int?)> extractRequestAndPassToDeviceStepMode(double systemTime)
     {
       int indexOfEarliestRequest = -1;
 
@@ -41,10 +44,10 @@ namespace QueuingSystemCoursework
         {
           Request request = buffer[indexOfEarliestRequest];
           buffer[indexOfEarliestRequest] = null;
-          result.AddLast(("EM", systemTime.ToString(), "extract " + request.Number, Statistics.ServedRequestsCounter.ToString(),
-        Statistics.RefusedRequestsCounter.ToString(), buffer, null));
+          result.AddLast(("EM", systemTime.ToString(), "extract " + request.Number, statistics.ServedRequestsCounter.ToString(),
+        statistics.RefusedRequestsCounter.ToString(), buffer, null));
 
-          result.AddLast(devices[i].startServiceStepMode(request, systemTime, alpha, beta));
+          result.AddLast(devices[i].startServiceStepMode(request, systemTime));
           return result;
         }
       }
@@ -52,7 +55,7 @@ namespace QueuingSystemCoursework
       throw new Exception("All devices are not free");
     }
 
-    public void extractRequestAndPassToDeviceAutomaticMode(double systemTime, double alpha, double beta)
+    public void extractRequestAndPassToDeviceAutomaticMode(double systemTime)
     {
       int indexOfEarliestRequest = -1;
 
@@ -76,7 +79,7 @@ namespace QueuingSystemCoursework
           Request request = buffer[indexOfEarliestRequest];
           buffer[indexOfEarliestRequest] = null;
 
-          devices[i].startServiceStepMode(request, systemTime, alpha, beta);
+          devices[i].startServiceAutomaticMode(request, systemTime);
           return;
         }
       }

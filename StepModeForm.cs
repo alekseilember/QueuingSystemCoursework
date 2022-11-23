@@ -15,10 +15,11 @@ namespace QueuingSystemCoursework
     private LinkedList<(string, string, string, string, string, Request[], int?)> tableRows;
 
     private int bufferPointer = 0;
-    public StepModeForm(Simulation main)
+    public StepModeForm(double lambda, double alpha, double beta, int bufferLength, int amountOfDevices, int amountOfRequests)
     {
       InitializeComponent();
-      this.main = main;
+      this.simulation = new Simulation();
+      simulation.Init(lambda, alpha, beta, bufferLength, amountOfDevices, amountOfRequests);
 
       DataGridViewTextBoxColumn column1 = new DataGridViewTextBoxColumn();
       column1.Name = "System element";
@@ -62,9 +63,9 @@ namespace QueuingSystemCoursework
       this.dataGridView2.Columns.Add(column7);
       this.dataGridView2.Columns.Add(column8);
 
-      tableRows = main.NextStep();
+      tableRows = simulation.NextStep();
 
-      dataGridView2.Rows.Add(main.BufferLength - 1);
+      dataGridView2.Rows.Add(bufferLength - 1);
       for (int i = 0; i < dataGridView2.Rows.Count; i++)
       {
         dataGridView2.Rows[i].Cells["Request number"].Value = "null";
@@ -77,7 +78,7 @@ namespace QueuingSystemCoursework
     {
       if (tableRows.Count == 0)
       {
-        tableRows = main.NextStep();
+        tableRows = simulation.NextStep();
       }
 
       if (tableRows.Count > 0)
@@ -121,7 +122,7 @@ namespace QueuingSystemCoursework
       {
         if (tableRows.Count == 0)
         {
-          tableRows = main.NextStep();
+          tableRows = simulation.NextStep();
         }
 
         if (tableRows.Count > 0)

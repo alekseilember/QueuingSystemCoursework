@@ -14,9 +14,12 @@ namespace QueuingSystemCoursework
 {
   public partial class AutomaticModePlotsForm : Form
   {
+    private Simulation simulation;
     public AutomaticModePlotsForm()
     {
       InitializeComponent();
+
+      simulation = new Simulation();
 
       comboBox1.Text = "probability of refuse";
       comboBox2.Text = "average amount of requests per time unit";
@@ -142,9 +145,9 @@ namespace QueuingSystemCoursework
               case "probability of refuse":
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  Simulation main = new Simulation(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  simulation.Init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  var result = simulation.doAutomaticSimulation();
 
                   chart1.Series[0].Points.AddXY(minLambda + i * lambdaStep, result.Item1);
                   progressBar1.PerformStep();
@@ -153,9 +156,9 @@ namespace QueuingSystemCoursework
               case "average request in system time":
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  Simulation main = new Simulation(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  simulation.Init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  var result = simulation.doAutomaticSimulation();
 
                   chart1.Series[0].Points.AddXY(minLambda + i * lambdaStep, result.Item2);
                   progressBar1.PerformStep();
@@ -173,9 +176,9 @@ namespace QueuingSystemCoursework
 
                 for (int i = 0; i <= (int)numericUpDown4.Value; i++)
                 {
-                  Simulation main = new Simulation(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
+                  simulation.Init(minLambda + i * lambdaStep, alpha, beta, (int)numericUpDown2.Value,
                     (int)numericUpDown6.Value, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  var result = simulation.doAutomaticSimulation();
 
                   for (int j = 0; j < chart1.Series.Count; j++)
                   {
@@ -224,8 +227,8 @@ namespace QueuingSystemCoursework
               case "probability of refuse":
                 for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
                 {
-                  Simulation main = new Simulation(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  simulation.Init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  var result = simulation.doAutomaticSimulation();
 
                   chart1.Series[0].Points.AddXY(i, result.Item1);
                   progressBar1.PerformStep();
@@ -235,8 +238,8 @@ namespace QueuingSystemCoursework
               case "average request in system time":
                 for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
                 {
-                  Simulation main = new Simulation(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  simulation.Init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  var result = simulation.doAutomaticSimulation();
 
                   chart1.Series[0].Points.AddXY(i, result.Item2);
                   progressBar1.PerformStep();
@@ -255,8 +258,8 @@ namespace QueuingSystemCoursework
 
                 for (int i = (int)numericUpDown5.Value; i <= (int)numericUpDown1.Value; i++)
                 {
-                  Simulation main = new Simulation(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  simulation.Init(lambda, alpha, beta, (int)numericUpDown2.Value, i, (int)numericUpDown3.Value);
+                  var result = simulation.doAutomaticSimulation();
 
                   for (int j = 0; j < result.Item3.Length; j++)
                   {
@@ -306,8 +309,8 @@ namespace QueuingSystemCoursework
               case "probability of refuse":
                 for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
                 {
-                  Simulation main = new Simulation(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  simulation.Init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  var result = simulation.doAutomaticSimulation();
 
                   chart1.Series[0].Points.AddXY(i, result.Item1);
                   progressBar1.PerformStep();
@@ -317,8 +320,8 @@ namespace QueuingSystemCoursework
               case "average request in system time":
                 for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
                 {
-                  Simulation main = new Simulation(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  simulation.Init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  var result = simulation.doAutomaticSimulation();
 
                   chart1.Series[0].Points.AddXY(i, result.Item2);
                   progressBar1.PerformStep();
@@ -337,8 +340,8 @@ namespace QueuingSystemCoursework
 
                 for (int i = (int)numericUpDown8.Value; i <= (int)numericUpDown9.Value; i++)
                 {
-                  Simulation main = new Simulation(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
-                  var result = main.doAutomaticSimulation();
+                  simulation.Init(lambda, alpha, beta, i, (int)numericUpDown6.Value, (int)numericUpDown3.Value);
+                  var result = simulation.doAutomaticSimulation();
 
                   for (int j = 0; j < chart1.Series.Count; j++)
                   {

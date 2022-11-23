@@ -11,6 +11,9 @@ namespace QueuingSystemCoursework
     private Request request = null;           //заявка, которая находится на приборе
     private int number;                   //номер прибора
 
+    private double alpha;
+    private double beta;
+
     private int servedRequestsCounter = 0;
     private double startServiceTime;        //время поступения заявки
 
@@ -20,13 +23,20 @@ namespace QueuingSystemCoursework
 
     private Random random;
 
-    public Device(int number)
+    private Statistics statistics;
+
+    public Device(int number, double alpha, double beta, Statistics statistics)
     {
       this.number = number;
       random = new Random();
+
+      this.alpha = alpha;
+      this.beta = beta;
+
+      this.statistics = statistics;
     }
 
-    public (string, string, string, string, string, Request[], int?) startServiceStepMode(Request request, double systemTime, double alpha, double beta)
+    public (string, string, string, string, string, Request[], int?) startServiceStepMode(Request request, double systemTime)
     {
       if (!isFree())
       {
@@ -39,11 +49,11 @@ namespace QueuingSystemCoursework
       inServiceTime = (beta - alpha) * random.NextDouble() + alpha;
       endServiceTime = startServiceTime + inServiceTime;
 
-      return ("D" + this.number.ToString(), systemTime.ToString(), "start service " + request.Number, Statistics.ServedRequestsCounter.ToString(),
-        Statistics.RefusedRequestsCounter.ToString(), null, null);
+      return ("D" + this.number.ToString(), systemTime.ToString(), "start service " + request.Number, statistics.ServedRequestsCounter.ToString(),
+        statistics.RefusedRequestsCounter.ToString(), null, null);
     }
 
-    public void startServiceAutomaticMode(Request request, double systemTime, double alpha, double beta)
+    public void startServiceAutomaticMode(Request request, double systemTime)
     {
       if (!isFree())
       {
@@ -60,22 +70,22 @@ namespace QueuingSystemCoursework
     public (string, string, string, string, string, Request[], int?) endServiceStepMode(double systemTime)
     {
       fullInServiceTime += inServiceTime;
-      Statistics.addServedRequest();
-      Statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
+      statistics.addServedRequest();
+      statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
       this.addServedRequest();
 
       int requestNumber = request.Number;
       request = null;
 
-      return ("D" + this.number.ToString(), systemTime.ToString(), "end service " + requestNumber, Statistics.ServedRequestsCounter.ToString(),
-        Statistics.RefusedRequestsCounter.ToString(), null, null);
+      return ("D" + this.number.ToString(), systemTime.ToString(), "end service " + requestNumber, statistics.ServedRequestsCounter.ToString(),
+        statistics.RefusedRequestsCounter.ToString(), null, null);
     }
 
-    public void endServiceAutomaticMode(double systemTime)
+    public void endServiceAutomaticMode()
     {
       fullInServiceTime += inServiceTime;
-      Statistics.addServedRequest();
-      Statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
+      statistics.addServedRequest();
+      statistics.addRequestsInSystemTime(endServiceTime - request.GenerationTime);
       this.addServedRequest();
 
       request = null;

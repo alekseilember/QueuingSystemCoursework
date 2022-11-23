@@ -42,8 +42,8 @@ namespace QueuingSystemCoursework
           return;
         }
 
-        StepModeForm stepModeForm = new StepModeForm(new Simulation(lambda, alpha, beta, Convert.ToInt32(numericUpDown1.Value),
-          Convert.ToInt32(numericUpDown2.Value), Convert.ToInt32(numericUpDown3.Value)));
+        StepModeForm stepModeForm = new StepModeForm(lambda, alpha, beta, Convert.ToInt32(numericUpDown1.Value),
+          Convert.ToInt32(numericUpDown2.Value), Convert.ToInt32(numericUpDown3.Value));
         stepModeForm.FormClosing += delegate { this.Show(); };
         Hide();
         stepModeForm.ShowDialog();

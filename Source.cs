@@ -12,17 +12,20 @@ namespace QueuingSystemCoursework
     private Random random;
     private double lambda;
 
-    public Source(double lambda)
+    private Statistics statistics;
+
+    public Source(double lambda, Statistics statistics)
     {
       this.lambda = lambda;
       this.random = new Random();
+      this.statistics = statistics;
     }
 
     public Request generateRequest()
     {
       lastRequestGenerationTime += Math.Log(1 - random.NextDouble()) / (-lambda);
-      Statistics.addGeneratedRequest();
-      return new Request(lastRequestGenerationTime, Statistics.GeneratedRequestsCounter);
+      statistics.addGeneratedRequest();
+      return new Request(lastRequestGenerationTime, statistics.GeneratedRequestsCounter);
     }
   }
 }

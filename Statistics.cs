@@ -8,40 +8,45 @@ namespace QueuingSystemCoursework
 {
   internal class Statistics
   {
-    private static int generatedRequestsCounter = 0;        //количество сгенерированных заявок
-    private static int refusedRequestsCounter = 0;          //количество заявок в отказе
-    private static int servedRequestsCounter = 0;          //количество обслуженных заявок
-    private static double requestsInSystemTime = 0.0;     //Время нахождения заявок в системе
+    private int generatedRequestsCounter;        //количество сгенерированных заявок
+    private int refusedRequestsCounter;          //количество заявок в отказе
+    private int servedRequestsCounter;          //количество обслуженных заявок
+    private double requestsInSystemTime;     //Время нахождения заявок в системе
 
-    public static int GeneratedRequestsCounter => generatedRequestsCounter;
-
-    public static void addGeneratedRequest()
+    public Statistics()
     {
-      Statistics.generatedRequestsCounter++;
+      clear();
     }
 
-    public static int RefusedRequestsCounter => refusedRequestsCounter;
+    public int GeneratedRequestsCounter => generatedRequestsCounter;
 
-    public static void addRefusedRequest()
+    public void addGeneratedRequest()
     {
-      Statistics.refusedRequestsCounter++;
+      generatedRequestsCounter++;
     }
 
-    public static double RequestsInSystemTime => requestsInSystemTime;
+    public int RefusedRequestsCounter => refusedRequestsCounter;
 
-    public static void addRequestsInSystemTime(double additionalRequestsInSystemTime)
+    public void addRefusedRequest()
     {
-      Statistics.requestsInSystemTime += additionalRequestsInSystemTime;
+      refusedRequestsCounter++;
     }
 
-    public static int ServedRequestsCounter => servedRequestsCounter;
+    public double RequestsInSystemTime => requestsInSystemTime;
 
-    public static void addServedRequest()
+    public void addRequestsInSystemTime(double additionalRequestsInSystemTime)
     {
-      Statistics.servedRequestsCounter++;
+      requestsInSystemTime += additionalRequestsInSystemTime;
     }
 
-    public static void clear()
+    public int ServedRequestsCounter => servedRequestsCounter;
+
+    public void addServedRequest()
+    {
+      servedRequestsCounter++;
+    }
+
+    public void clear()
     {
       generatedRequestsCounter = 0;
       refusedRequestsCounter = 0;
