@@ -14,10 +14,10 @@ namespace QueuingSystemCoursework
 
     private Statistics statistics;
 
-    public Source(double lambda, Statistics statistics)
+    public Source(double lambda, Random random, Statistics statistics)
     {
       this.lambda = lambda;
-      this.random = new Random();
+      this.random = random;
       this.statistics = statistics;
     }
 

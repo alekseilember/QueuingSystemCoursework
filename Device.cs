@@ -25,10 +25,10 @@ namespace QueuingSystemCoursework
 
     private Statistics statistics;
 
-    public Device(int number, double alpha, double beta, Statistics statistics)
+    public Device(int number, double alpha, double beta, Random random, Statistics statistics)
     {
       this.number = number;
-      random = new Random();
+      this.random = random;
 
       this.alpha = alpha;
       this.beta = beta;

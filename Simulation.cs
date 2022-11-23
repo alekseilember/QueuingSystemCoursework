@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//Refactor: results in step mode, readme.md с расшифровкой варианта
 
 namespace QueuingSystemCoursework
 {
@@ -18,6 +13,7 @@ namespace QueuingSystemCoursework
     private bool isInitialized;
     private bool isSimulationDone;
     private Statistics statistics;
+    private Random random;
 
     private Source source;
     private LinkedList<Request> requestList;
@@ -36,8 +32,9 @@ namespace QueuingSystemCoursework
       this.isSimulationDone = false;
       this.systemTime = 0;
       this.statistics = new Statistics();
+      this.random = new Random();
 
-      this.source = new Source(lambda, statistics);
+      this.source = new Source(lambda, random, statistics);
       this.buffer = new Request[bufferLength];
       this.bufferElementsCounter = 0;
 
@@ -50,7 +47,7 @@ namespace QueuingSystemCoursework
       this.devices = new Device[amountOfDevices];
       for (int i = 0; i < amountOfDevices; i++)
       {
-        devices[i] = (new Device(i + 1, alpha, beta, statistics));
+        devices[i] = (new Device(i + 1, alpha, beta, random, statistics));
       }
 
       this.insertionManager = new InsertionManager(buffer, statistics);

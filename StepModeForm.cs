@@ -106,7 +106,11 @@ namespace QueuingSystemCoursework
       }
       else
       {
-        MessageBox.Show("Simulation is over", "Error", MessageBoxButtons.OK);
+        var resultSet = simulation.doAutomaticSimulation();
+        StepModeSimulationResultsForm stepModeSimulationResultsForm = new StepModeSimulationResultsForm(resultSet.Item1, resultSet.Item2, resultSet.Item3);
+        stepModeSimulationResultsForm.FormClosing += delegate { this.Show(); };
+        Hide();
+        stepModeSimulationResultsForm.ShowDialog();
       }
     }
 
@@ -137,6 +141,11 @@ namespace QueuingSystemCoursework
           break;
         }
       }
+      var resultSet = simulation.doAutomaticSimulation();
+      StepModeSimulationResultsForm stepModeSimulationResultsForm = new StepModeSimulationResultsForm(resultSet.Item1, resultSet.Item2, resultSet.Item3);
+      stepModeSimulationResultsForm.FormClosing += delegate { this.Show(); };
+      Hide();
+      stepModeSimulationResultsForm.ShowDialog();
     }
   }
 }

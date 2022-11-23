@@ -80,6 +80,12 @@
     <Compile Include="StepModeParametersForm.Designer.cs">
       <DependentUpon>StepModeParametersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StepModeSimulationResultsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StepModeSimulationResultsForm.Designer.cs">
+      <DependentUpon>StepModeSimulationResultsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AutomaticModePlotsForm.resx">
       <DependentUpon>AutomaticModePlotsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StepModeParametersForm.resx">
       <DependentUpon>StepModeParametersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StepModeSimulationResultsForm.resx">
+      <DependentUpon>StepModeSimulationResultsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

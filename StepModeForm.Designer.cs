@@ -31,12 +31,12 @@ namespace QueuingSystemCoursework
     /// </summary>
     private void InitializeComponent()
     {
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
@@ -50,25 +50,25 @@ namespace QueuingSystemCoursework
       // 
       // dataGridView1
       // 
-      dataGridViewCellStyle13.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
-      dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle14.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 14.25F);
+      this.dataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 14.25F);
+      dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
       this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle15.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText;
-      dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle15;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 14.25F);
+      dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+      dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
       this.dataGridView1.Location = new System.Drawing.Point(17, 49);
       this.dataGridView1.Name = "dataGridView1";
       this.dataGridView1.ReadOnly = true;
@@ -99,7 +99,7 @@ namespace QueuingSystemCoursework
       // button1
       // 
       this.button1.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      this.button1.Location = new System.Drawing.Point(481, 648);
+      this.button1.Location = new System.Drawing.Point(486, 640);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(129, 43);
       this.button1.TabIndex = 4;
@@ -110,7 +110,7 @@ namespace QueuingSystemCoursework
       // button2
       // 
       this.button2.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      this.button2.Location = new System.Drawing.Point(777, 648);
+      this.button2.Location = new System.Drawing.Point(783, 640);
       this.button2.Name = "button2";
       this.button2.Size = new System.Drawing.Size(129, 43);
       this.button2.TabIndex = 5;
@@ -121,7 +121,7 @@ namespace QueuingSystemCoursework
       // button3
       // 
       this.button3.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      this.button3.Location = new System.Drawing.Point(624, 648);
+      this.button3.Location = new System.Drawing.Point(629, 640);
       this.button3.Name = "button3";
       this.button3.Size = new System.Drawing.Size(138, 43);
       this.button3.TabIndex = 6;
@@ -131,25 +131,25 @@ namespace QueuingSystemCoursework
       // 
       // dataGridView2
       // 
-      dataGridViewCellStyle16.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      this.dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
-      dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Control;
-      dataGridViewCellStyle17.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.WindowText;
-      dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
+      dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 14.25F);
+      this.dataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle5.Font = new System.Drawing.Font("Times New Roman", 14.25F);
+      dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+      dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
       this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle18.Font = new System.Drawing.Font("Times New Roman", 14.25F);
-      dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.ControlText;
-      dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-      dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-      dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle18;
+      dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+      dataGridViewCellStyle6.Font = new System.Drawing.Font("Times New Roman", 14.25F);
+      dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+      dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+      dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+      dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle6;
       this.dataGridView2.Location = new System.Drawing.Point(972, 49);
       this.dataGridView2.Name = "dataGridView2";
       this.dataGridView2.ReadOnly = true;
@@ -161,7 +161,7 @@ namespace QueuingSystemCoursework
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1411, 703);
+      this.ClientSize = new System.Drawing.Size(1411, 695);
       this.Controls.Add(this.dataGridView2);
       this.Controls.Add(this.button3);
       this.Controls.Add(this.button2);
@@ -189,5 +189,5 @@ namespace QueuingSystemCoursework
     private Simulation simulation;
     private Button button3;
     private DataGridView dataGridView2;
-  }
+    }
 }
